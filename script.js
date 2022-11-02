@@ -1,71 +1,83 @@
-const options = ["rock", "paper", "scissors"];
+const options = ["rock", "paper", "scissors"]; // only options possible in that game
 
+// randomly return a computer choice
 const getComputerChoice = () => {
-    let rdmIndex = Math.floor(Math.random() * options.length);
-    return options[rdmIndex];
+    return options[Math.floor(Math.random() * options.length)]
 }
 
-const checkWinner = (playerSelection, computerSelection) => {
-    if (playerSelection == computerSelection)
-        return "Tie";
-    else if (
-        (playerSelection == "rock" && computerSelection == "scissors") ||
-        (playerSelection == "paper" && computerSelection == "rock") ||
-        (playerSelection == "scissors" && computerSelection == "paper")
-    ) { 
-        return "Player won";
-    } else {
-        return "Computer won";
-     }
-};
-
-const playRound = (playerSelection, computerSelection) => {
-    const result = checkWinner(playerSelection, computerSelection);
-    if (result == "Tie")
-        return "It's a tie!";
-    else if (result == "Player won")
-        return `Player 1 won! ${playerSelection} beats ${computerSelection}`;
-    return `Computer won! ${computerSelection} beats ${playerSelection}`;
-}
-
+// Ask player for a choice included in const options
 const getPlayerChoice = () => {
-    let validateInput = false;
-    while (validateInput == false) {
-        const choice = prompt("Rock, paper or scissors ?");
-        if (choice == null) {
-            continue;
-        }
-        const choiceInLower = choice.toLowerCase();
-        if (options.includes(choiceInLower)) {
-            validateInput = true;
-            return choiceInLower
+    let userInput = false;
+    while (userInput == false) {
+        const choice = prompt("Rock, paper or scissors?");
+        const choiceToLower = choice.toLowerCase();
+        if (options.includes(choiceToLower)) {
+            userInput = true;
+            return choiceToLower;
         }
     }
 }
 
+
+// const checkWinner = (playerSelection, cpuSelection) => {
+//     if (playerSelection == cpuSelection)
+//         return "Tie"
+//     else if (
+//         (playerSelection == "rock" && cpuSelection == "scissors") ||
+//         (playerSelection == "paper" && cpuSelection == "rock") ||
+//         (playerSelection == "scissors" && cpuSelection == "paper")
+        
+//     ){
+//         return `Player won`
+//     } else {
+//         return `Computer won`
+//     }  
+// }
+
+// simulate a single round
+const playRound = (playerSelection, cpuSelection) => {
+    if (playerSelection == cpuSelection)
+        return "it's a tie!"
+    else if (
+        (playerSelection == "rock" && cpuSelection == "scissors") ||
+        (playerSelection == "paper" && cpuSelection == "rock") ||
+        (playerSelection == "scissors" && cpuSelection == "paper")
+        
+    ){
+        return `Player wins this round! ${playerSelection} beats ${cpuSelection}`
+    } else {
+        return `Computer wins this round! ${cpuSelection} beats ${playerSelection}`
+    }  
+}
+
+
+// plays 5 round, keep track of points from players
 const game = () => {
-    let scorePlayer = 0;
-    let scoreCpu = 0;
+    let playerScore = 0;
+    let CpuScore = 0;
     for (let i = 0; i < 5; i++) {
-        const playerSelection = getPlayerChoice();
-        const computerSelection = getComputerChoice();
-        console.log(playRound(playerSelection, computerSelection));
-        console.log("--------------------------------------------");
-        if (checkWinner(playerSelection, computerSelection) == "Player won") {
-            scorePlayer++
+        let playerSelection = getPlayerChoice();
+        let cpuSelection = getComputerChoice();
+        playRound(playerSelection, cpuSelection)
+        if (playRound(playerSelection, cpuSelection) == `Player wins this round! ${playerSelection} beats ${cpuSelection}`) {
+            playerScore++
+            console.log(`Player wins this round! ${playerSelection} beats ${cpuSelection}`)
+            console.log('--------------------------')
         }
-        else if (checkWinner(playerSelection, computerSelection) == "Computer won") {
-            scoreCpu++
-        }    
+        else if (playRound(playerSelection, cpuSelection) == `Computer wins this round! ${cpuSelection} beats ${playerSelection}`) {
+            CpuScore++ 
+            console.log(`Computer wins this round! ${cpuSelection} beats ${playerSelection}`)
+            console.log('--------------------------')
+        }   
     }
-    if (scorePlayer == scoreCpu)
-        console.log("LMAO, it's a tie!")
-    else if (scorePlayer > scoreCpu)
-        console.log("Congratulations, you won!")
-    else
-        console.log("Eww, it seems that the cpu won...");
-
-    console.log("Game over, thanks for playing");
+    
+    console.log(`Final score is Player ${playerScore} - ${CpuScore} Computer`)
+    console.log('==========================')
+    if (playerScore > CpuScore)
+        return "Congratulations, you won the match!"
+    else if (playerScore < CpuScore)
+        return "Ewwww, it seems that the CPU won the match. Better luck next time!"
+    return "The match ends up on a tie!"
 }
 
-game()
+console.log(game())
