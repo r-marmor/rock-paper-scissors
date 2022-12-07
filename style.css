@@ -1,0 +1,36 @@
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(105, 44, 44);
+    font-size: larger;
+    color: whitesmoke;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid red;
+    height: 100vh;
+}
+
+
+button {
+    width: auto;
+    height: 40px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgb(145, 176, 211);
+    font-size: large;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: bisque;
+}
